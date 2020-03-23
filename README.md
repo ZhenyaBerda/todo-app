@@ -1,10 +1,10 @@
 # Todo лист на ReactJS
 
-Разработка списка задача на ReactJS для начинающих
+Разработка списка задача на ReactJS
 
 **Stack:**
 
-ReactJS (useState, useReducer, useEffect)
-React Router
-Axios
-classnames
+- ReactJS (useState, useReducer, useEffect)
+- React Router
+- Axios
+- classnames
