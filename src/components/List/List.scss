@@ -4,13 +4,12 @@
     margin-bottom: 30px;
 
     &__add-button {
-        opacity: .4;
+        opacity: 0.4;
 
         &:hover {
             opacity: 1;
         }
     }
-
 
     li {
         display: flex;
@@ -20,7 +19,7 @@
         transition: background-color 0.15s ease-in-out;
 
         &:hover #{$self}__remove-icon {
-            opacity: .2;
+            opacity: 0.2;
         }
 
         #{$self}__remove-icon {
@@ -28,43 +27,41 @@
             transition: opacity 0.15s ease-in-out;
 
             &:hover {
-                opacity: .8;
+                opacity: 0.8;
             }
         }
 
-
         span {
             flex: 1;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            width: 160px;
+            white-space: nowrap;
         }
 
         &:hover {
             background: rgba(255, 255, 255, 0.5);
-
         }
 
         &.active {
-            background: #FFFFFF;
+            background: #ffffff;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
             border-radius: 4px;
-
         }
 
         .badge {
             position: relative;
+            left: 5px;
         }
 
         i {
             display: inline-flex;
             margin-right: 8px;
-
             svg {
                 path {
                     fill: #7c7c7c;
                 }
             }
         }
-
-
-
     }
 }
