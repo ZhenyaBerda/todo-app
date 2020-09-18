@@ -11,8 +11,8 @@ const Tasks = ({list}) => {
       </h2>
 
       <div className="tasks__items">
-        {
-          list.tasks.map(task =>
+          {!list.tasks.length && <h2>Задачи отсутствуют</h2>}
+          {list.tasks.map(task =>
               <div key={task.id} className="tasks__items-row">
                 <div className="checkbox">
                   <input id={`task-${task.id}`} type="checkbox" />

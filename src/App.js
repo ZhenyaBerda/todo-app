@@ -6,6 +6,7 @@ import {List, AddList, Tasks} from "./components";
 function App() {
   const [lists, setLists] = useState(null);
   const [colors, setColors] = useState(null);
+  const [activeItem, setActiveItem] = useState(null);
 
     useEffect(() => {
         axios.get('http://localhost:3001/lists?_expand=color&_embed=tasks').then(({data}) => {
@@ -41,14 +42,15 @@ function App() {
                   />
                 </svg>
               ),
-              name: "Все задачи",
-              active: true,
+              name: "Все задачи"
             },
           ]}
         />
           {lists ? (
               <List
                   items={lists}
+                  onClickItem={item => setActiveItem(item)}
+                  activeItem={activeItem}
                   isRemovable
                   onRemove={id => {
                 const newLists = lists.filter(item => item.id !== id);
@@ -61,7 +63,7 @@ function App() {
         <AddList onAdd={onAddList} colors={colors} />
       </div>
       <div className="todo__tasks">
-          {lists && <Tasks list={lists[1]}/>}
+          {lists && activeItem && <Tasks list={activeItem}/>}
       </div>
     </div>
   );
