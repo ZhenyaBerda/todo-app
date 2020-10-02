@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Route, useHistory } from 'react-router-dom';
+import { Route, useLocation, useHistory } from 'react-router-dom';
 
 import { List, AddList, Tasks } from './components';
 
@@ -9,6 +9,9 @@ function App() {
   const [colors, setColors] = useState(null);
   const [activeItem, setActiveItem] = useState(null);
   let history = useHistory();
+  let location = useLocation();
+
+  console.log(location);
 
   useEffect(() => {
     axios
@@ -112,23 +115,23 @@ function App() {
   };
 
   useEffect(() => {
-    const listId = history.location.pathname.split('lists/')[1];
+    const listId = location.pathname.split('lists/')[1];
     if (lists) {
       const list = lists.find(list => list.id === Number(listId));
       setActiveItem(list);
     }
-  }, [lists, history.location.pathname]);
+  }, [lists, location.pathname]);
 
   return (
     <div className="todo">
       <div className="todo__sidebar">
         <List
-          onClickItem={list => {
+          onClickItem={() => {
             history.push(`/`);
           }}
           items={[
             {
-              active: history.location.pathname === '/',
+              active: location.pathname === '/',
               icon: (
                 <svg
                   width="18"
