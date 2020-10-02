@@ -1,19 +1,18 @@
-import React, {useEffect, useState} from "react";
-import axios from "axios";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-import List from "../List/List";
-import Badge from "../Badge/Badge";
+import List from '../List/List';
+import Badge from '../Badge/Badge';
 
-import closeSVG from "../../assets/img/close.svg";
+import closeSvg from '../../assets/img/close.svg';
 
-import "./AddListButton.scss";
+import './AddList.scss';
 
-
-const AddListButton = ({ colors, onAdd }) => {
+const AddList = ({ colors, onAdd }) => {
   const [visiblePopup, setVisiblePopup] = useState(false);
-  const [inputValue, setInputValue] = useState("");
-  const [selectedColor, selectColor] = useState(3);
+  const [seletedColor, selectColor] = useState(3);
   const [isLoading, setIsLoading] = useState(false);
+  const [inputValue, setInputValue] = useState('');
 
   useEffect(() => {
     if (Array.isArray(colors)) {
@@ -23,30 +22,33 @@ const AddListButton = ({ colors, onAdd }) => {
 
   const onClose = () => {
     setVisiblePopup(false);
-    setInputValue("");
+    setInputValue('');
     selectColor(colors[0].id);
   };
 
   const addList = () => {
     if (!inputValue) {
-      alert("Введите название списка");
+      alert('Введите название списка');
       return;
     }
     setIsLoading(true);
     axios
-        .post('http://localhost:3001/lists', {
-          name: inputValue,
-          colorId: selectedColor
-        })
-        .then(({data}) => {
-          const color = colors.filter((c) => c.id === selectedColor)[0].name;
-          const listObj = {...data, color: {name: color}};
-          onAdd(listObj);
-          onClose();
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
+      .post('http://localhost:3001/lists', {
+        name: inputValue,
+        colorId: seletedColor
+      })
+      .then(({ data }) => {
+        const color = colors.filter(c => c.id === seletedColor)[0];
+        const listObj = { ...data, color, tasks: [] };
+        onAdd(listObj);
+        onClose();
+      })
+      .catch(() => {
+        alert('Ошибка при добавлении списка!');
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   return (
@@ -55,7 +57,7 @@ const AddListButton = ({ colors, onAdd }) => {
         onClick={() => setVisiblePopup(true)}
         items={[
           {
-            className: "list__add-button",
+            className: 'list__add-button',
             icon: (
               <svg
                 width="12"
@@ -80,32 +82,34 @@ const AddListButton = ({ colors, onAdd }) => {
                 />
               </svg>
             ),
-            name: "Добавить список",
-          },
+            name: 'Добавить список'
+          }
         ]}
       />
       {visiblePopup && (
         <div className="add-list__popup">
           <img
             onClick={onClose}
-            src={closeSVG}
-            alt=""
+            src={closeSvg}
+            alt="Close button"
             className="add-list__popup-close-btn"
           />
+
           <input
             value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
+            onChange={e => setInputValue(e.target.value)}
             className="field"
             type="text"
             placeholder="Название списка"
           />
+
           <div className="add-list__popup-colors">
-            {colors.map((color) => (
+            {colors.map(color => (
               <Badge
                 onClick={() => selectColor(color.id)}
                 key={color.id}
                 color={color.name}
-                className={selectedColor === color.id && "active"}
+                className={seletedColor === color.id && 'active'}
               />
             ))}
           </div>
@@ -118,4 +122,4 @@ const AddListButton = ({ colors, onAdd }) => {
   );
 };
 
-export default AddListButton;
+export default AddList;
